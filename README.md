@@ -1,5 +1,22 @@
-# **Plugin Name** Plugin
+### A request is slow, how do I figure what is slow through our logs?
 
-**Plugin Summary**
+Demo how we can use HAProxy logs, Nginx Logs, Unicorn logs to figure out what is slow.
 
-For more information, please see: **url to meta topic**
+## A request is slow, what can I do about it?
+
+### rack-mini-profiler
+
+How do you use it and what information can you get from it?
+
+### Understanding Flamegraphs
+
+What is a call-stack?
+What is a flamegraph?
+How do I read a flamegraph?
+
+Example: 001-flamegraph.rb
+
+### How do I get the Flamegraph for a GET request on customer's site?
+
+1. Make yourself a developer on the site
+2. Use `?pp=flamegraph` to view the flamegraph for a request
