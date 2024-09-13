@@ -16,7 +16,12 @@ How do I read a flamegraph?
 
 Example: 001-flamegraph.rb
 
-### How do I get the Flamegraph for a GET request on customer's site?
+### How do I get the Flamegraph for a GET request on a customer's site?
 
 1. Make yourself a developer on the site
 2. Use `?pp=flamegraph` to view the flamegraph for a request
+
+### Exercise
+
+The `/latest` page is very slow, can you figure out why?
+

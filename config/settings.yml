@@ -1,4 +1,4 @@
 TODO_plugin_name:
   plugin_name_enabled:
-    default: false
+    default: true
     client: true
