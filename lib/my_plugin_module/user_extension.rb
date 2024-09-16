@@ -13,5 +13,10 @@ module MyPluginModule
         false
       end
     end
+
+    def skip_topic_view_serializer_sloth_virus
+      self.user_profile.bio_raw ==
+        "You’ve found the maker of the antidote true,\nNow mimic their words to see your task through.\nSet your “About Me” to mirror their style,\nAnd with this change, you’ll reconcile.\nFollow their lead, and align your text,\nTo complete this step and move to the next."
+    end
   end
 end

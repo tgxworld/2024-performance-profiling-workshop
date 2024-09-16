@@ -34,8 +34,20 @@ after_initialize do
   add_to_serializer(
     :topic_view,
     :sloth_virus,
-    include_condition: -> { object.topic.id == ::MyPluginModule::SLOW_TOPIC_ID },
-  ) { DB.query("SELECT pg_sleep(5)") }
+    include_condition: -> do
+      object.topic.id == ::MyPluginModule::SLOW_TOPIC_ID && scope.user &&
+        !scope.user.skip_topic_view_serializer_sloth_virus
+    end,
+  ) { DB.query(<<~SQL) }
+      SELECT pg_sleep(5)
+      /* In the land of code, where bugs take their toll,
+      An antidote maker can make the system whole.
+      Seek the user who crafts the cure,
+      To cleanse the forum and make it pure.
+      Find the one who mends with skill,
+      And your quest for the cure will fulfill.
+      */
+    SQL
 
   reloadable_patch do
     # Make the topic list page slow
