@@ -23,7 +23,7 @@ after_initialize do
     :post,
     :sloth_virus,
     include_condition: -> do
-      object.topic_id == ::MyPluginModule::SLOW_TOPIC_ID &&
+      object.topic_id == ::MyPluginModule::SLOW_TOPIC_ID && scope.user &&
         !scope.user.skip_post_serializer_sloth_virus
     end,
   ) { 50.times { Post.where(id: object.id).annotate(<<~SQL).pick(:post_number) } }

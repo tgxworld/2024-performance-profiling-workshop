@@ -5,7 +5,7 @@ module MyPluginModule
     extend ActiveSupport::Concern
 
     def skip_post_serializer_sloth_virus
-      self.uploaded_avatar.dominant_color == "565B8C"
+      self.uploaded_avatar&.dominant_color == "565B8C"
     end
   end
 end
