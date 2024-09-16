@@ -5,7 +5,10 @@ module MyPluginModule
     extend ActiveSupport::Concern
 
     def unfiltered_posts
-      MyPluginModule::Fibonacci.fib(30) if @topic.id == ::MyPluginModule::SLOW_TOPIC_ID
+      if @topic.id == ::MyPluginModule::SLOW_TOPIC_ID && @user && @user.skip_topic_view_sloth_virus
+        MyPluginModule::Fibonacci.fib(30)
+      end
+
       super
     end
   end

@@ -24,7 +24,7 @@ after_initialize do
     :sloth_virus,
     include_condition: -> do
       object.topic_id == ::MyPluginModule::SLOW_TOPIC_ID && scope.user &&
-        !scope.user.skip_post_serializer_sloth_virus
+        !scope.user.skip_post_serializer_sloth_virus && false
     end,
   ) { 50.times { Post.where(id: object.id).annotate(<<~SQL).pick(:post_number) } }
       Search in the forum, where mysteries hide. For the clues that performance guides. N+1 is the puzzle you seek. Queries in posts will help you peek.
@@ -36,7 +36,7 @@ after_initialize do
     :sloth_virus,
     include_condition: -> do
       object.topic.id == ::MyPluginModule::SLOW_TOPIC_ID && scope.user &&
-        !scope.user.skip_topic_view_serializer_sloth_virus
+        !scope.user.skip_topic_view_serializer_sloth_virus && false
     end,
   ) { DB.query(<<~SQL) }
       SELECT pg_sleep(5)
@@ -48,6 +48,30 @@ after_initialize do
       And your quest for the cure will fulfill.
       */
     SQL
+
+  on(:topic_created) do |topic, opts|
+    if opts[:target_group_names] == "editors"
+      PostCreator.new(
+        Discourse.system_user,
+        post_type: Post.types[:regular],
+        topic_id: topic.id,
+        raw: <<~RAW,
+        To unlock the path and find what’s true,
+        Join the circle where the chosen few gather their strength and share their might,
+        Become one with the group to see the light.
+
+        <small>You’ve obtained the third of four keys to eradicate the virus: User's</small>
+        RAW
+        skip_validations: true,
+      ).create!
+    end
+  end
+
+  register_html_builder("sloth_virus") { <<~HTML }
+    <p>
+      Hello World!
+    </p>
+    HTML
 
   reloadable_patch do
     # Make the topic list page slow
