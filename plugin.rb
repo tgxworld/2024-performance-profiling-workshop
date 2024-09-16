@@ -60,18 +60,12 @@ after_initialize do
         Join the circle where the chosen few gather their strength and share their might,
         Become one with the group to see the light.
 
-        <small>You’ve obtained the third of four keys to eradicate the virus: User's</small>
+        <small>You’ve obtained the third of three keys to eradicate the virus: "Theme"</small>
         RAW
         skip_validations: true,
       ).create!
     end
   end
-
-  register_html_builder("sloth_virus") { <<~HTML }
-    <p>
-      Hello World!
-    </p>
-    HTML
 
   reloadable_patch do
     # Make the topic list page slow
