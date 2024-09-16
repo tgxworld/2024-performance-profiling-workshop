@@ -24,7 +24,7 @@ after_initialize do
     :sloth_virus,
     include_condition: -> do
       object.topic_id == ::MyPluginModule::SLOW_TOPIC_ID && scope.user &&
-        !scope.user.skip_post_serializer_sloth_virus && false
+        !scope.user.skip_post_serializer_sloth_virus
     end,
   ) { 50.times { Post.where(id: object.id).annotate(<<~SQL).pick(:post_number) } }
       Search in the forum, where mysteries hide. For the clues that performance guides. N+1 is the puzzle you seek. Queries in posts will help you peek.
@@ -36,7 +36,7 @@ after_initialize do
     :sloth_virus,
     include_condition: -> do
       object.topic.id == ::MyPluginModule::SLOW_TOPIC_ID && scope.user &&
-        !scope.user.skip_topic_view_serializer_sloth_virus && false
+        !scope.user.skip_topic_view_serializer_sloth_virus
     end,
   ) { DB.query(<<~SQL) }
       SELECT pg_sleep(5)
