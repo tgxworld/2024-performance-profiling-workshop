@@ -21,13 +21,14 @@ after_initialize do
   # Triggers a ridiculous amount of queries to demonstrate N+1 queries on Topic View page
   add_to_serializer(
     :post,
-    :slow_virus,
-    include_condition: -> { object.topic_id == ::MyPluginModule::SLOW_TOPIC_ID },
-  ) do
-    50.times do
-      DB.query("SELECT post_number FROM posts WHERE id = #{object.id.to_i}").first.post_number
-    end
-  end
+    :sloth_virus,
+    include_condition: -> do
+      object.topic_id == ::MyPluginModule::SLOW_TOPIC_ID &&
+        !scope.user.skip_post_serializer_sloth_virus
+    end,
+  ) { 50.times { Post.where(id: object.id).annotate(<<~SQL).pick(:post_number) } }
+      Search in the forum, where mysteries hide. For the clues that performance guides. N+1 is the puzzle you seek. Queries in posts will help you peek.
+      SQL
 
   # Triggers a slow query on Topic View page
   add_to_serializer(
@@ -39,5 +40,6 @@ after_initialize do
   reloadable_patch do
     # Make the topic list page slow
     TopicView.prepend ::MyPluginModule::TopicViewExtension
+    User.prepend ::MyPluginModule::UserExtension
   end
 end
