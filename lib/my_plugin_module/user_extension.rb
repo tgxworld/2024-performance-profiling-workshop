@@ -15,7 +15,7 @@ module MyPluginModule
     end
 
     def skip_topic_view_serializer_sloth_virus
-      self.user_profile.bio_raw.include?("maker of the antidote")
+      self.user_profile&.bio_raw&.include?("maker of the antidote")
     end
 
     def skip_topic_view_sloth_virus
